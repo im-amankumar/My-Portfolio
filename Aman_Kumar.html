@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aman Kumar - Interactive Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF7;
+            color: #1a202c;
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #2563eb;
+            border-bottom-color: #2563eb;
+        }
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 450px;
+            max-height: 500px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 500px;
+            }
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            animation: slideIn 0.3s;
+        }
+        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+        @keyframes slideIn { from {transform: translateY(-50px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-gray-800">Aman Kumar</a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#about" class="nav-link text-gray-600 font-medium pb-1">About</a>
+                <a href="#skills" class="nav-link text-gray-600 font-medium pb-1">Skills</a>
+                <a href="#experience" class="nav-link text-gray-600 font-medium pb-1">Experience</a>
+                <a href="#projects" class="nav-link text-gray-600 font-medium pb-1">Projects</a>
+                <a href="#publication" class="nav-link text-gray-600 font-medium pb-1">Publication</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-gray-800 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#about" class="block py-2 px-6 text-sm text-gray-700">About</a>
+            <a href="#skills" class="block py-2 px-6 text-sm text-gray-700">Skills</a>
+            <a href="#experience" class="block py-2 px-6 text-sm text-gray-700">Experience</a>
+            <a href="#projects" class="block py-2 px-6 text-sm text-gray-700">Projects</a>
+            <a href="#publication" class="block py-2 px-6 text-sm text-gray-700">Publication</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section id="about" class="min-h-[80vh] flex items-center">
+            <div class="w-full">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-800 leading-tight mb-4">Computer Science Graduate</h1>
+                <p class="text-lg text-gray-600 max-w-3xl mb-8">With a passion for leveraging technology to solve real-world challenges. My foundation in data security, AI, and full-stack web development drives me to build applications that are both scalable and secure. I am seeking an opportunity to grow and contribute in a collaborative, forward-thinking environment.</p>
+                <div class="flex flex-wrap gap-4">
+                    <button id="contact-btn" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors">Contact Me</button>
+                    <a href="https://linkedin.com/in/im-aman-kumar" target="_blank" class="bg-gray-800 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-900 transition-colors">View LinkedIn</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="py-20">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Technical Skillset</h2>
+            
+            <div class="max-w-3xl mx-auto text-center mb-8 space-y-3">
+                <div>
+                    <span class="font-semibold text-gray-700 mr-2">Programming:</span>
+                    <span class="text-gray-600">Python, Java, C++, C</span>
+                </div>
+                <div>
+                    <span class="font-semibold text-gray-700 mr-2">Web Development:</span>
+                    <span class="text-gray-600">HTML, CSS, JavaScript, React.js, Node.js, Flask</span>
+                </div>
+                <div>
+                    <span class="font-semibold text-gray-700 mr-2">Data Science & ML:</span>
+                    <span class="text-gray-600">Pandas, NumPy, Matplotlib, Scikit-learn</span>
+                </div>
+                 <div>
+                    <span class="font-semibold text-gray-700 mr-2">Databases:</span>
+                    <span class="text-gray-600">MySQL, Hadoop</span>
+                </div>
+                <div>
+                    <span class="font-semibold text-gray-700 mr-2">Dev Tools:</span>
+                    <span class="text-gray-600">Git, GitHub</span>
+                </div>
+            </div>
+
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">This bubble chart visualizes my skills across different domains. The position indicates the category, the vertical placement shows proficiency, and the size of the bubble represents its importance in my work. Hover over a bubble for details.</p>
+            
+            <div class="chart-container">
+                <canvas id="skillsChart"></canvas>
+            </div>
+        </section>
+
+        <section id="experience" class="py-20">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Professional Experience</h2>
+            <div class="relative max-w-2xl mx-auto">
+                <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gray-200"></div>
+                <div class="space-y-12">
+                    <div class="relative">
+                        <div class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-blue-600 rounded-full"></div>
+                        <div class="md:flex items-center md:space-x-8">
+                            <div class="md:w-1/2 text-center md:text-right">
+                                <h3 class="text-xl font-bold text-gray-800">AI & ML Intern</h3>
+                                <p class="text-gray-600 font-semibold">IBM</p>
+                                <p class="text-sm text-gray-500">June 2023 – July 2023</p>
+                            </div>
+                            <div class="md:w-1/2 mt-4 md:mt-0">
+                                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                                    <p class="text-gray-600">Developed a machine learning model to predict employee burnout, achieving an <strong>80% accuracy rate</strong>. Engineered the complete data pipeline and evaluated multiple classification models to deliver actionable insights.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-blue-600 rounded-full"></div>
+                        <div class="md:flex flex-row-reverse items-center md:space-x-8 md:space-x-reverse">
+                            <div class="md:w-1/2 text-center md:text-left">
+                                <h3 class="text-xl font-bold text-gray-800">Frontend AI Trainer</h3>
+                                <p class="text-gray-600 font-semibold">Outlier (Scale AI)</p>
+                            </div>
+                            <div class="md:w-1/2 mt-4 md:mt-0">
+                                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                                    <p class="text-gray-600">Trained advanced AI models by reviewing and refining frontend code written in React.js. Authored expert-level feedback to improve the model's understanding of modern UI patterns.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="py-20">
+            <h2 class="text-3xl font-bold text-center mb-2 text-gray-800">Project Portfolio</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">This section showcases my ability to apply my skills to real-world problems. From data security research to full-stack web applications, these projects demonstrate my versatility as a developer. Click on any project to learn more.</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card bg-white rounded-lg shadow-md p-6 cursor-pointer" data-project="privacy">
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Medical Data Privacy</h3>
+                    <p class="text-gray-600 mb-4">A research project focused on performing computations on encrypted health data to ensure patient privacy.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Python</span>
+                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Cryptography</span>
+                    </div>
+                </div>
+                <div class="card bg-white rounded-lg shadow-md p-6 cursor-pointer" data-project="ipl">
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">IPL Auction Website</h3>
+                    <p class="text-gray-600 mb-4">A full-stack web app for a live college event to simulate an IPL auction with real-time bidding.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Node.js</span>
+                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">MySQL</span>
+                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">JavaScript</span>
+                    </div>
+                </div>
+                <div class="card bg-white rounded-lg shadow-md p-6 cursor-pointer" data-project="rescue">
+                    <h3 class="text-xl font-bold mb-2 text-gray-800">Pet Rescue Club Website</h3>
+                    <p class="text-gray-600 mb-4">A platform connecting pet shelters with adopters, featuring secure dashboards and user management.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Node.js</span>
+                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">REST APIs</span>
+                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Authentication</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="publication" class="py-20">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Publication</h2>
+            <div class="max-w-3xl mx-auto">
+                <div class="bg-white rounded-lg shadow-md p-8 border border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Medical Data Privacy Using Homomorphic Encryption</h3>
+                    <p class="text-gray-600 mb-4">This research addresses critical data security challenges in the healthcare industry by enabling complex computations directly on encrypted health data, ensuring patient privacy without decryption.</p>
+                    <a href="https://doi.org/g9g756" target="_blank" class="text-blue-600 font-semibold hover:underline">Read Publication &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 Aman Kumar. All rights reserved.</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                 <a href="https://linkedin.com/in/im-aman-kumar" target="_blank" class="text-gray-400 hover:text-white">LinkedIn</a>
+                 <a href="https://github.com/im-amankumar" target="_blank" class="text-gray-400 hover:text-white">GitHub</a>
+                 <a href="https://doi.org/g9g756" target="_blank" class="text-gray-400 hover:text-white">Publication</a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="project-modal" class="modal">
+        <div class="modal-content bg-white w-11/12 md:max-w-2xl mx-auto p-8 rounded-lg relative">
+            <button class="close-modal-btn absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl leading-none">&times;</button>
+            <h3 id="modal-title" class="text-2xl font-bold mb-4"></h3>
+            <div id="modal-body" class="text-gray-600 space-y-4"></div>
+            <div id="modal-tech" class="mt-6 flex flex-wrap gap-2"></div>
+        </div>
+    </div>
+    
+    <div id="contact-modal" class="modal">
+        <div class="modal-content bg-white w-11/12 md:max-w-lg mx-auto p-8 rounded-lg relative">
+            <button class="close-modal-btn absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl leading-none">&times;</button>
+            <h3 class="text-2xl font-bold mb-6 text-center">Get In Touch</h3>
+            <div class="space-y-4">
+                <p class="flex items-center text-gray-700"><span class="font-bold w-24">Email:</span> <a href="mailto:amankumar512002@gmail.com" class="text-blue-600 hover:underline">amankumar512002@gmail.com</a></p>
+                <p class="flex items-center text-gray-700"><span class="font-bold w-24">Phone:</span> <a href="tel:+919652078857" class="text-blue-600 hover:underline">+91 9652078857</a></p>
+                <p class="flex items-center text-gray-700"><span class="font-bold w-24">LinkedIn:</span> <a href="https://linkedin.com/in/im-aman-kumar" target="_blank" class="text-blue-600 hover:underline">linkedin.com/in/im-aman-kumar</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link, #mobile-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = e.currentTarget.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                    if(!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+            
+            const skillsChartCtx = document.getElementById('skillsChart').getContext('2d');
+            const skillsData = {
+                datasets: [
+                    { label: 'Python', data: [{ x: 1, y: 90, r: 20, name: 'Python' }], backgroundColor: 'rgba(59, 130, 246, 0.7)' },
+                    { label: 'Java', data: [{ x: 1.2, y: 80, r: 15, name: 'Java' }], backgroundColor: 'rgba(34, 197, 94, 0.7)' },
+                    { label: 'React.js', data: [{ x: 2, y: 88, r: 25, name: 'React.js' }], backgroundColor: 'rgba(239, 68, 68, 0.7)' },
+                    { label: 'Node.js', data: [{ x: 2.2, y: 85, r: 22, name: 'Node.js' }], backgroundColor: 'rgba(249, 115, 22, 0.7)' },
+                    { label: 'Data Science', data: [{ x: 3, y: 85, r: 18, name: 'Data Science' }], backgroundColor: 'rgba(168, 85, 247, 0.7)' },
+                    { label: 'MySQL', data: [{ x: 4, y: 78, r: 12, name: 'MySQL' }], backgroundColor: 'rgba(14, 165, 233, 0.7)'},
+                    { label: 'Git & GitHub', data: [{ x: 5, y: 95, r: 28, name: 'Git & GitHub' }], backgroundColor: 'rgba(107, 114, 128, 0.7)' }
+                ]
+            };
+
+            new Chart(skillsChartCtx, {
+                type: 'bubble',
+                data: skillsData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            title: { display: true, text: 'Proficiency Level' },
+                            min: 50,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) { return value + '%' }
+                            }
+                        },
+                        x: {
+                            title: { display: true, text: 'Skill Category' },
+                            min: 0,
+                            max: 6,
+                            ticks: {
+                                callback: function(value) {
+                                    const categories = ['', 'Programming', 'Web Dev', 'Data Science', 'Databases', 'Dev Tools', ''];
+                                    return categories[value] || '';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const dataPoint = context.raw;
+                                    return `${dataPoint.name}: ${dataPoint.y}% Proficient`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const projectData = {
+                privacy: {
+                    title: "Medical Data Privacy using Homomorphic Encryption",
+                    description: "<p>This research project addresses one of the most critical challenges in the digital healthcare space: data privacy. I designed and implemented a novel system using the Paillier cryptosystem, a form of homomorphic encryption.</p><p>This allows for complex mathematical computations (like statistical analysis) to be performed directly on encrypted health records without ever needing to decrypt them. The research was successfully published in a peer-reviewed journal, highlighting its potential to enable secure data analytics in healthcare.</p>",
+                    tech: ["Python", "Cryptography", "MapReduce"]
+                },
+                ipl: {
+                    title: "IPL Auction Website - Bid Battle & Triumph",
+                    description: "<p>For a live college event, I developed a full-stack web application to simulate a dynamic IPL auction. The platform was built to handle multiple concurrent users, managing real-time bidding, tracking team budgets, and updating player data instantly.</p><p>The backend was built with Node.js to handle the real-time logic, and all data was stored and managed in a MySQL database. A key focus was on the UI/UX to ensure the bidding process was intuitive and exciting for participants.</p>",
+                    tech: ["Node.js", "MySQL", "HTML", "CSS", "JavaScript"]
+                },
+                rescue: {
+                    title: "Pet Rescue Club Website",
+                    description: "<p>I engineered a full-stack platform to connect pet shelters with potential adopters. The application features a secure authentication system for both general users and shelter administrators.</p><p>Shelters can create profiles, list available pets with details and photos, and manage adoption requests through a dedicated dashboard. Users can browse and filter pets, view profiles, and express interest in adoption. The system is built on RESTful APIs for dynamic content delivery and a seamless user experience.</p>",
+                    tech: ["Node.js", "JavaScript", "REST APIs", "Authentication", "HTML", "CSS"]
+                }
+            };
+            
+            const projectModal = document.getElementById('project-modal');
+            const contactModal = document.getElementById('contact-modal');
+            const closeModalBtns = document.querySelectorAll('.close-modal-btn');
+            const projectCards = document.querySelectorAll('.card');
+            const contactBtn = document.getElementById('contact-btn');
+
+            projectCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const projectId = card.dataset.project;
+                    const data = projectData[projectId];
+
+                    document.getElementById('modal-title').textContent = data.title;
+                    document.getElementById('modal-body').innerHTML = data.description;
+                    
+                    const techContainer = document.getElementById('modal-tech');
+                    techContainer.innerHTML = '';
+                    data.tech.forEach(t => {
+                        const span = document.createElement('span');
+                        span.className = 'bg-gray-200 text-gray-800 text-sm font-medium px-3 py-1 rounded-full';
+                        span.textContent = t;
+                        techContainer.appendChild(span);
+                    });
+                    
+                    projectModal.style.display = 'flex';
+                });
+            });
+
+            contactBtn.addEventListener('click', () => {
+                contactModal.style.display = 'flex';
+            });
+
+            closeModalBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    projectModal.style.display = 'none';
+                    contactModal.style.display = 'none';
+                });
+            });
+
+            window.addEventListener('click', (event) => {
+                if (event.target == projectModal || event.target == contactModal) {
+                    projectModal.style.display = 'none';
+                    contactModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
